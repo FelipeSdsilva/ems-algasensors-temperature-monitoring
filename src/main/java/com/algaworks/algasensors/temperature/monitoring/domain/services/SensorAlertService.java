@@ -21,12 +21,18 @@ public class SensorAlertService {
 
   private SensorAlert retrieverEntityPerId(TSID sensorId) {
     return alertRepository.findById(new SensorId(sensorId))
-        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        .orElse(SensorAlert.builder()
+            .id(new SensorId(sensorId))
+            .maxTemperature(null)
+            .maxTemperature(null)
+            .build());
   }
 
   @Transactional(readOnly = true)
   public SensorAlertOutput getOne(TSID sensorId) {
-    return new SensorAlertOutput(retrieverEntityPerId(sensorId));
+    SensorAlert alert = alertRepository.findById(new SensorId(sensorId))
+        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    return new SensorAlertOutput(alert);
   }
 
   @Transactional
