@@ -6,8 +6,13 @@ import com.algaworks.algasensors.temperature.monitoring.domain.model.SensorMonit
 import com.algaworks.algasensors.temperature.monitoring.domain.repositories.SensorMonitoringRepository;
 import io.hypersistence.tsid.TSID;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.time.Duration;
 
 @Service
 @RequiredArgsConstructor
@@ -32,13 +37,20 @@ public class SensorMonitoringService {
   @Transactional
   public void enable(TSID sensorId) {
     SensorMonitoring monitoring = this.findByIdOrDefault(sensorId);
+    if (monitoring.getEnable()) {
+      throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Monitoring already enabled");
+    }
     monitoring.setEnable(true);
     monitoringRepository.saveAndFlush(monitoring);
   }
 
+  @SneakyThrows
   @Transactional
   public void disable(TSID sensorId) {
     SensorMonitoring monitoring = this.findByIdOrDefault(sensorId);
+    if (!monitoring.getEnable()) {
+      Thread.sleep(Duration.ofSeconds(10));
+    }
     monitoring.setEnable(false);
     monitoringRepository.saveAndFlush(monitoring);
   }
