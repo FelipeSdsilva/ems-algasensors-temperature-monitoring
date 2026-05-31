@@ -9,3 +9,9 @@ spring:
 
   profiles:
     active: ${APP_PROFILE:dev}
+
+  rabbitmq:
+    host: ${HOST}
+    port: ${PORT}
+    username: ${USER}
+    password: ${PASSWORD}

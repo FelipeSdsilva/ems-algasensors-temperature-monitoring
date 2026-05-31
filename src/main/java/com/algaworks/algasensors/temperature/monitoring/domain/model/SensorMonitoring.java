@@ -22,7 +22,10 @@ public class SensorMonitoring {
   @AttributeOverride(name = "value",column = @Column(name = "id", columnDefinition = "bigint"))
   private SensorId id;
   private Double lastTemperature;
-  private OffsetDateTime updateAt;
+  private OffsetDateTime updatedAt;
   private Boolean enable;
 
+    public boolean isEnabled() {
+      return Boolean.TRUE.equals(enable);
+    }
 }

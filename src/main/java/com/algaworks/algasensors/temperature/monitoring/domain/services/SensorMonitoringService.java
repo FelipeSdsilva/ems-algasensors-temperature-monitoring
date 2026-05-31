@@ -18,40 +18,40 @@ import java.time.Duration;
 @RequiredArgsConstructor
 public class SensorMonitoringService {
 
-  private final SensorMonitoringRepository monitoringRepository;
+    private final SensorMonitoringRepository monitoringRepository;
 
-  @Transactional(readOnly = true)
-  public SensorMonitoringOutput getDetail(TSID sensorId) {
-    SensorMonitoring monitoring = findByIdOrDefault(sensorId);
-    return SensorMonitoringOutput.from(monitoring);
-  }
-
-  private SensorMonitoring findByIdOrDefault(TSID sensorId) {
-    return monitoringRepository.findById(new SensorId(sensorId))
-        .orElse(SensorMonitoring.builder()
-            .id(new SensorId(sensorId))
-            .enable(false)
-            .build());
-  }
-
-  @Transactional
-  public void enable(TSID sensorId) {
-    SensorMonitoring monitoring = this.findByIdOrDefault(sensorId);
-    if (monitoring.getEnable()) {
-      throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Monitoring already enabled");
+    @Transactional(readOnly = true)
+    public SensorMonitoringOutput getDetail(TSID sensorId) {
+        SensorMonitoring monitoring = findByIdOrDefault(sensorId);
+        return SensorMonitoringOutput.from(monitoring);
     }
-    monitoring.setEnable(true);
-    monitoringRepository.saveAndFlush(monitoring);
-  }
 
-  @SneakyThrows
-  @Transactional
-  public void disable(TSID sensorId) {
-    SensorMonitoring monitoring = this.findByIdOrDefault(sensorId);
-    if (!monitoring.getEnable()) {
-      Thread.sleep(Duration.ofSeconds(10));
+    private SensorMonitoring findByIdOrDefault(TSID sensorId) {
+        return monitoringRepository.findById(new SensorId(sensorId))
+                .orElse(SensorMonitoring.builder()
+                        .id(new SensorId(sensorId))
+                        .enable(false)
+                        .build());
     }
-    monitoring.setEnable(false);
-    monitoringRepository.saveAndFlush(monitoring);
-  }
+
+    @Transactional
+    public void enable(TSID sensorId) {
+        SensorMonitoring monitoring = this.findByIdOrDefault(sensorId);
+        if (monitoring.getEnable()) {
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Monitoring already enabled");
+        }
+        monitoring.setEnable(true);
+        monitoringRepository.saveAndFlush(monitoring);
+    }
+
+    @SneakyThrows
+    @Transactional
+    public void disable(TSID sensorId) {
+        SensorMonitoring monitoring = this.findByIdOrDefault(sensorId);
+        if (!monitoring.getEnable()) {
+            Thread.sleep(Duration.ofSeconds(10));
+        }
+        monitoring.setEnable(false);
+        monitoringRepository.saveAndFlush(monitoring);
+    }
 }

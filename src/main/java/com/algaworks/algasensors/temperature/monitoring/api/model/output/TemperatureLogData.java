@@ -14,14 +14,14 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TemperatureLogOutput {
+public class TemperatureLogData {
 
   private UUID id;
   private TSID sensorId;
   private OffsetDateTime registeredAt;
   private Double value;
 
-  public TemperatureLogOutput(TemperatureLog temperatureLog) {
+  public TemperatureLogData(TemperatureLog temperatureLog) {
     this.id = temperatureLog.getId().getValue();
     this.sensorId = temperatureLog.getSensorId().getValue();
     this.registeredAt = temperatureLog.getRegisteredAt();

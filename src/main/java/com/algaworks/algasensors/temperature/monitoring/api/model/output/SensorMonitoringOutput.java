@@ -20,7 +20,7 @@ public class SensorMonitoringOutput {
     return SensorMonitoringOutput.builder()
         .id(monitoring.getId().getValue())
         .lastTemperature(monitoring.getLastTemperature())
-        .updateAt(monitoring.getUpdateAt())
+        .updateAt(monitoring.getUpdatedAt())
         .enable(monitoring.getEnable())
         .build();
   }

@@ -1,8 +1,12 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="TemperatureMonitoringApplication" type="Application" factoryName="Application" nameIsGenerated="true">
     <envs>
-      <env name="SERVER_PORT" value="8082" />
       <env name="APP_PROFILE" value="test" />
+      <env name="SERVER_PORT" value="8082" />
+      <env name="HOST" value="localhost" />
+      <env name="PORT" value="5672" />
+      <env name="USER" value="rabbitmq" />
+      <env name="PASSWORD" value="rabbitmq" />
     </envs>
     <option name="MAIN_CLASS_NAME" value="com.algaworks.algasensors.temperature.monitoring.TemperatureMonitoringApplication" />
     <module name="temperature-monitoring.main" />

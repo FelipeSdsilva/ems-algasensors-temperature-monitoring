@@ -1,10 +1,7 @@
 package com.algaworks.algasensors.temperature.monitoring.api.controller;
 
 
-import com.algaworks.algasensors.temperature.monitoring.api.model.output.TemperatureLogOutput;
-import com.algaworks.algasensors.temperature.monitoring.domain.model.SensorId;
-import com.algaworks.algasensors.temperature.monitoring.domain.model.TemperatureLog;
-import com.algaworks.algasensors.temperature.monitoring.domain.repositories.TemperatureLogRepository;
+import com.algaworks.algasensors.temperature.monitoring.api.model.output.TemperatureLogData;
 import com.algaworks.algasensors.temperature.monitoring.domain.services.TemperatureLogService;
 import io.hypersistence.tsid.TSID;
 import lombok.RequiredArgsConstructor;
@@ -25,8 +22,8 @@ public class TemperatureLogController {
   private final TemperatureLogService logService;
 
   @GetMapping
-  public ResponseEntity<Page<TemperatureLogOutput>> search(@PathVariable TSID sensorId,
-                                                          @PageableDefault Pageable pageable) {
+  public ResponseEntity<Page<TemperatureLogData>> search(@PathVariable TSID sensorId,
+                                                         @PageableDefault Pageable pageable) {
     return ResponseEntity.ok(logService.search(sensorId, pageable));
   }
 
